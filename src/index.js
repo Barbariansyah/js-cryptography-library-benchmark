@@ -1,6 +1,7 @@
 import CryptoJS from "crypto-js";
 import crypto from "crypto";
 import sjcl from "sjcl";
+import aesjs from "aes-js";
 import { PerformanceObserver, performance } from 'perf_hooks';
 
 const random10k = crypto.randomBytes(10000).toString('hex');
@@ -87,9 +88,31 @@ const runCrypto = () => {
 }
 
 /**
+ * aes-js test run
+ */
+const runAesJs = () => {
+    var key = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ];
+    performance.mark('aes-js-enc-start');
+    var textBytes = aesjs.utils.utf8.toBytes(random10k);
+    var aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
+    var encryptedBytes = aesCtr.encrypt(textBytes);
+    var encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
+    performance.mark('aes-js-enc-end')
+    performance.measure('aes-js-enc', 'aes-js-enc-start', 'aes-js-enc-end');
+
+    performance.mark('aes-js-dec-start');
+    var aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
+    var decryptedBytes = aesCtr.decrypt(encryptedBytes);
+    var decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
+    performance.mark('aes-js-dec-end')
+    performance.measure('aes-js-enc', 'aes-js-dec-start', 'aes-js-dec-end');
+}
+
+/**
  * Driver
  */
 runCryptoJs();
 runSJCL();
 runCrypto();
+runAesJs();
 

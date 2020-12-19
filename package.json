@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Barbariansyah/js-cryptography-library-benchmark#readme",
   "dependencies": {
+    "aes-js": "^3.1.2",
     "crypto-js": "^4.0.0",
     "sjcl": "^1.0.8"
   }
