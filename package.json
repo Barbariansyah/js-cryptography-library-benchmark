@@ -1,0 +1,25 @@
+{
+  "name": "js-cryptography-library-benchmark",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "A benchmark for JavaScript cryptography libraries. This is written as a part of ITB Cryptography Class final project.",
+  "main": "index.js",
+  "scripts": {
+    "benchmark": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Barbariansyah/js-cryptography-library-benchmark.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Barbariansyah/js-cryptography-library-benchmark/issues"
+  },
+  "homepage": "https://github.com/Barbariansyah/js-cryptography-library-benchmark#readme",
+  "dependencies": {
+    "crypto-js": "^4.0.0",
+    "sjcl": "^1.0.8"
+  }
+}
