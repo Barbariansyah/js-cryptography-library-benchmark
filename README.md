@@ -5,3 +5,5 @@ A benchmark for JavaScript cryptography libraries. This is written as a part of 
 In this project we eill be benchmarking these libraries:
 1. crypto-js
 2. sjcl
+3. aes-js
+4. crypto, Node.js module
