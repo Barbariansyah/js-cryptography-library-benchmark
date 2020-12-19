@@ -7,6 +7,7 @@ import { PerformanceObserver, performance } from 'perf_hooks';
 const random10k = crypto.randomBytes(10000).toString('hex');
 const random100k = crypto.randomBytes(100000).toString('hex');
 const random500k = crypto.randomBytes(500000).toString('hex');
+const random1m = crypto.randomBytes(1000000).toString('hex');
 
 const passSample = 'VOZlEsc7dzJjp7S3HFZi4IfgNzpPuVDo';
 
@@ -20,9 +21,9 @@ perfObserver.observe({ entryTypes: ["measure"], buffer: true });
 /**
  * SJCL Test Run
  */
-const runSJCL = () => {
+const runSJCL = (message) => {
     performance.mark('sjcl-enc-start');
-    var encryptedsjcl = sjcl.encrypt(passSample, random10k)
+    var encryptedsjcl = sjcl.encrypt(passSample, message)
     performance.mark('sjcl-enc-end');
     
     performance.measure('sjcl-enc', 'sjcl-enc-start', 'sjcl-enc-end');
@@ -36,9 +37,9 @@ const runSJCL = () => {
 /**
  * CryptoJS Test Run
  */
-const runCryptoJs = () => {
+const runCryptoJs = (message) => {
     performance.mark('crypto-js-enc-start');
-    var encryptedCryptoJS = CryptoJS.AES.encrypt(random10k, passSample);
+    var encryptedCryptoJS = CryptoJS.AES.encrypt(message, passSample);
     performance.mark('crypto-js-enc-end');
     
     performance.measure('crypto-js-enc', 'crypto-js-enc-start', 'crypto-js-enc-end');
@@ -82,18 +83,18 @@ const decrypt = (hash) => {
     return decrpyted.toString();
 };
 
-const runCrypto = () => {
-    var encryptedCrypto = encrypt(random10k);
+const runCrypto = (message) => {
+    var encryptedCrypto = encrypt(message);
     var decryptedCrypto = decrypt(encryptedCrypto);
 }
 
 /**
  * aes-js test run
  */
-const runAesJs = () => {
+const runAesJs = (message) => {
     var key = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ];
     performance.mark('aes-js-enc-start');
-    var textBytes = aesjs.utils.utf8.toBytes(random10k);
+    var textBytes = aesjs.utils.utf8.toBytes(message);
     var aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
     var encryptedBytes = aesCtr.encrypt(textBytes);
     var encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
@@ -105,14 +106,26 @@ const runAesJs = () => {
     var decryptedBytes = aesCtr.decrypt(encryptedBytes);
     var decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
     performance.mark('aes-js-dec-end')
-    performance.measure('aes-js-enc', 'aes-js-dec-start', 'aes-js-dec-end');
+    performance.measure('aes-js-dec', 'aes-js-dec-start', 'aes-js-dec-end');
 }
 
 /**
  * Driver
  */
-runCryptoJs();
-runSJCL();
-runCrypto();
-runAesJs();
+runCryptoJs(random10k);
+runCryptoJs(random100k);
+runCryptoJs(random500k);
+runCryptoJs(random1m);
+runSJCL(random10k);
+runSJCL(random100k);
+runSJCL(random500k);
+runSJCL(random1m);
+runAesJs(random10k);
+runAesJs(random100k);
+runAesJs(random500k);
+runAesJs(random1m);
+runCrypto(random10k);
+runCrypto(random100k);
+runCrypto(random500k);
+runCrypto(random1m);
 
